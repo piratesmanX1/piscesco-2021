@@ -8,6 +8,6 @@ A group assignment which being assigned at the last semester of Degree, which is
 **===================================INSTRUCTIONS===================================**
 1. Pull the files, and open via Visual Studio.
 2. Ensure local SQL Table integrity by first opening the Package Manager Console in Visual Studio, and type ```update-database -context PiscescoContext``` and ```update-database -context PiscescoModelContext```
-3. You can launch the system now. Bare in mind Feedback function which is related to the Table Storage service in Azure Cloud might be not working as the notice previously mentioned.
+3. You can launch the system now. Bare in mind ``Feedback`` function on the ordered item which is related to the Table Storage service in Azure Cloud might be not working as the notice previously clarified.
 
 **===================================INSTRUCTIONS===================================**
