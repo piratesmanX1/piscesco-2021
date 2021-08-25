@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets"
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "blobstoragepiscesco"
+    },
+    "appInsights1": {
+      "type": "appInsights",
+      "connectionId": "APPINSIGHTS_CONNECTIONSTRING"
+    },
+    "storage2": {
+      "type": "storage",
+      "connectionId": "BlobStorageConnection"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "PiscescoModelContext"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "PiscescoContextConnection"
+    }
+  }
+}

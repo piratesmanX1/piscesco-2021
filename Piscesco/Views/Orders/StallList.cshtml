@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Piscesco.Models.Stall>
+@using Piscesco.Controllers
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BlobsController bc = new BlobsController();
+}
+<div class="main-wrapper">
+    <div class="container">
+        <h1>List of stalls that are owned by you</h1>
+
+        <h2 class="stall-list-header2" style="padding-top:10px;padding-bottom:10px">Select stall to view orders</h2>
+
+        <table class="table" style=" border: 2px solid #dee2e6; border-radius: 5px;" id="stalltable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StallImage)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StallName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="text-align:center" class="center-td">
+                            <img src="@bc.GetImage(item.StallImage)" style="max-height:50px;max-width:100px" />
+                        </td>
+                        <td class="center-td">
+                            @Html.DisplayFor(modelItem => item.StallName)
+                        </td>
+                        <td class="center-td">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td class="center-td">
+                            <a asp-action="OrderByStall" asp-route-id="@item.StallID">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#stalltable').DataTable();
+    });
+
+
+</script>

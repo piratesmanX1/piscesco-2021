@@ -1,0 +1,188 @@
+﻿@model IEnumerable<Piscesco.Models.Product>
+@using Piscesco.Controllers
+@using Microsoft.AspNetCore.Identity
+@using Piscesco.Areas.Identity.Data
+
+@inject SignInManager<PiscescoUser> SignInManager
+@inject UserManager<PiscescoUser> UserManager
+
+@{
+    ViewData["Title"] = "Browse Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BlobsController bc = new BlobsController();
+    IEnumerable<Product> featuredProduct = ViewData["FeaturedProducts"] as IEnumerable<Product>;
+    Stall stall = ViewData["Stall"] as Stall;
+}
+<div class="main-wrapper">
+   <div class="container">
+        <div class="d-flex flex-row">
+            <h1 class="d-flex justify-content-start">Product List</h1>
+        </div>
+
+        <!-- method and action being left empty due to action to submit at the same page. method if didnt mention will automatically defined as get method -->
+        <div class="topbar-middle" style="background: unset">
+            <form class="search-form" id="search" style="width: 100%">
+                <input class="form-control" name="ProductName" type="text" placeholder="Search the product">
+                <button type="submit" name="search"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
+<!--
+<form>
+    <!-- provide a text box for filteration based on the product name -->
+    <!--
+    Search: <input type="text" name="ProductName" />
+    <br /><br />
+    <input type="submit" name="search" value="Search Product" />
+    <br /><br />
+</form>
+-->
+
+@if (featuredProduct.FirstOrDefault() != null)
+{
+    <!--
+    <div class="card mb-3">
+        <img class="card-img-top" src="//bc.GetImage(featuredProduct.FirstOrDefault().ProductImage)" style=" object-fit: none; object-position: center; width: 100%; max-height: 300px;">
+        <div class="card-body" style="top: 165px; height:135px; border-top-style: solid; position: absolute; background-color: white; width: -webkit-fill-available; opacity: 0.8;">
+            <h5 class="card-title">//featuredProduct.FirstOrDefault().ProductName</h5>
+            <p class="card-text">//featuredProduct.FirstOrDefault().ProductDescription</p>
+            <p class="card-text"><small class="text-muted">Price: //featuredProduct.FirstOrDefault().Price / //featuredProduct.FirstOrDefault().ProductUnit</small></p>
+            <a class="stretched-link" asp-action="AddToCartPage" asp-route-id="//featuredProduct.FirstOrDefault().ProductID"></a>
+        </div>
+    </div>
+    -->
+    <div class="section-title text-center">
+        <h1><span>@stall.StallName Featured Item</span></h1>
+    </div>
+    <div class="tr-cta tr-section">
+        <div class="cta-slider">
+            <div class="cta-slider-item">
+                <div class="cta-info-left">
+                    <div class="cta-info">
+                        <h1>@featuredProduct.FirstOrDefault().ProductName</h1>
+                        <p>@featuredProduct.FirstOrDefault().ProductDescription</p> <a class="btn btn-primary" asp-action="AddToCartPage" asp-route-id="@featuredProduct.FirstOrDefault().ProductID">Details</a>
+                    </div>
+                </div>
+                <div class="cta-info-right">
+                    <div class="cta-iamage text-center"> <img src="@bc.GetImage(featuredProduct.FirstOrDefault().ProductImage)" alt="Image" class="img-fluid"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="daily-needs">
+    <div class="section-title text-center">
+        <h1><span>@stall.StallName Products</span></h1>
+    </div>
+    <div class="random-product">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-6 col-lg-3">
+                    <div class="tr-products">
+                        <div class="tr-product">
+                            <div class="image-slider">
+                                <div class="product-image">
+                                    <a asp-action="AddToCartPage" asp-route-id="@item.ProductID"><img src="@bc.GetImage(item.ProductImage)" alt="Image" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <a asp-action="AddToCartPage" asp-route-id="@item.ProductID"> <span class="product-title">@item.ProductName</span> <span class="color">@stall.StallName</span> <span class="price"> RM @item.Price / @item.ProductUnit</span> </a>
+                            <div class="product-icon">
+                                <a asp-action="AddToCartPage" asp-route-id="@item.ProductID"><span class="icon icon-basket" style="margin-left: unset; transform: translateX(-50%);"></span></a> 
+                                <!-- <a asp-action="AddToCartPage" asp-route-id="@item.ProductID"><span class="icon icon-pulse"></span></a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!--
+   <div class="card-deck">
+        @foreach (var item in Model)
+        {
+
+
+            <div class="card col-4 pl-0 pr-0">
+                <img src="@bc.GetImage(item.ProductImage)" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@item.ProductName</h5>
+                    <p class="card-text">Price: @item.Price / @item.ProductUnit</p>
+                    <a class="stretched-link" asp-action="AddToCartPage" asp-route-id="@item.ProductID"></a>
+                </div>
+            </div>
+
+
+        }
+    </div>
+-->
+
+
+
+<div class="pr-0 p-3">
+    <a asp-action="BrowseStalls" class="float-right"> Back to stalls</a>
+</div>
+
+
+
+
+
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductUnit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stock)
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayNameFor(model => model.ProductImage)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="center-td">
+                        @Html.DisplayFor(modelItem => item.ProductID)
+                    </td>
+                    <td class="center-td" style="max-width:75px">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td class="center-td">
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td class="center-td">
+                        @Html.DisplayFor(modelItem => item.ProductUnit)
+                    </td>
+                    <td class="center-td">
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td style="text-align:center" class="description-td">
+                        <img src="@bc.GetImage(item.ProductImage)" style="max-height:75px;max-width:100px" />
+                    </td>
+                    <td class="center-td">
+                        <a asp-action="AddToCartPage" asp-route-id="@item.ProductID">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+    </div>
+</div>

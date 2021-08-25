@@ -1,0 +1,50 @@
+﻿@model Piscesco.Models.Stall
+@using Piscesco.Controllers
+
+
+@{
+    ViewData["Title"] = "Stall Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BlobsController bc = new BlobsController();
+    Uri imageUri = bc.GetImage(Model.StallImage);
+}
+
+<div class="main-wrapper">
+    <div class="container" style=" border: 2px solid #dee2e6; border-radius: 5px; padding: 32px;">
+        <h1>Details</h1>
+
+        <div>
+            <h4>Stall</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Stall Image
+                </dt>
+                <dd class="col-sm-10">
+                    <img src="@imageUri" style="max-height:100px;max-width:100px" />
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.StallName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.StallName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+
+            </dl>
+        </div>
+        <div>
+            <a asp-controller="Products" asp-action="Index" asp-route-id="@Model.StallID">Manage Products</a> |
+            <a asp-controller="Products" asp-action="StallCatchSetup" asp-route-id="@Model.StallID">Set Today's Catch</a> |
+            <a asp-action="Edit" asp-route-id="@Model.StallID">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>

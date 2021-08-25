@@ -1,0 +1,296 @@
+﻿@model IEnumerable<Piscesco.Models.Stall>
+@using Piscesco.Controllers
+
+@{
+    ViewData["Title"] = "Browse Stalls";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BlobsController bc = new BlobsController();
+    IEnumerable<Product> product = ViewData["Products"] as IEnumerable<Product>;
+}
+
+<!-- method and action being left empty due to action to submit at the same page. method if didnt mention will automatically defined as get method -->
+<!--
+<form>
+    <!-- provide a text box for filteration based on the product name -->
+<!--
+    Search: <input type="text" name="StallName" />
+    <br /><br />
+    <input type="submit" name="search" value="Search Stall" />
+    <br /><br />
+</form>
+-->
+
+<div class="tr-banner banner-two">
+    <div class="container text-center">
+        <div class="banner-info">
+            <div class="info-middle">
+                <span>New Stalls</span>
+                <h1>Various Fishes</h1>
+                <h2>reaching the market now</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-wrapper">
+    <div class="container">
+        <div class="d-flex flex-row">
+            <h1 class="d-flex justify-content-start">Stall List</h1>
+        </div>
+        @foreach (var item in Model)
+        {
+            var stallProduct = product.Where(obj => obj.StallID == item.StallID);
+            <!--
+        <div class="card col-4 pl-0 pr-0">
+            <img src="@bc.GetImage(item.StallImage)" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@item.StallName</h5>
+                <p class="card-text">@item.Description</p>
+                <a class="stretched-link" asp-action="BrowseProducts" asp-route-id="@item.StallID"></a>
+            </div>
+        </div>
+        -->
+
+            <div class="tr-section tr-products">
+                <div class="product-category">
+                    <a asp-action="BrowseProducts" asp-route-id="@item.StallID" class="category-title">
+                        <h1>@item.StallName</h1> <span class="category-icon"> <img src="~/images/others/category4.png" alt="Icon" class="img-fluid"></span>
+                    </a>
+                    <ul class="tr-list category-list">
+                        <li class="active">
+                            <span>Description</span>
+                            <a asp-action="BrowseProducts" asp-route-id="@item.StallID" class="category-info">
+                                <div class="category-image"> <img src="@bc.GetImage(item.StallImage)" alt="Image" class="img-fluid" style=" position: absolute; top: 0; bottom: 0; margin: auto; left: 50%; transform: translateX(-50%); z-index: 0;"> </div>
+                                <div class="overlay" style="z-index: 1">
+                                    <h2>@item.StallName</h2> <span class="color" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">@item.Description</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="random-product">
+                    <div class="product-slider">
+                        @foreach (var stallItems in stallProduct)
+                        {
+                            // showing all the related stall product within the stall card
+
+                            <div class="tr-product">
+                                <a asp-action="BrowseProducts" asp-route-id="@item.StallID">
+                                    <span class="product-image">
+                                        <img src="@bc.GetImage(stallItems.ProductImage)" alt="Image" class="img-fluid">
+                                    </span> <span class="product-title">@stallItems.ProductName</span> <span class="color">@item.StallName</span> <span class="price">RM @stallItems.Price / @stallItems.ProductUnit</span>
+                                </a>
+                                <div class="product-icon">
+                                    <!--
+                                    <a href="#"><span class="icon icon-basket"></span></a>
+                                    <a href="#"><span class="icon icon-pulse"></span></a>
+                                -->
+                                    <a asp-action="BrowseProducts" asp-route-id="@item.StallID"><span class="icon icon-basket" style="margin-left: unset; transform: translateX(-50%);"></span></a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        <!--
+    <div class="tr-cta tr-section">
+        <div class="cta-slider">
+            <div class="cta-slider-item">
+                <div class="cta-info-left">
+                    <div class="cta-info">
+                        <h1>New Modern Series</h1>
+                        <p>Comfortable, lightweight, made of composite aluminum. Perfect for both the city and the heavy road.</p> <a class="btn btn-primary" href="#">Shop Now</a>
+                    </div>
+                </div>
+                <div class="cta-info-right">
+                    <div class="cta-iamage text-center"> <img src="~/images/others/cta-img.jpg" alt="Image" class="img-fluid"> </div>
+                </div>
+            </div>
+            <div class="cta-slider-item">
+                <div class="cta-info-left">
+                    <div class="cta-info">
+                        <h1>New Modern Series</h1>
+                        <p>Comfortable, lightweight, made of composite aluminum. Perfect for both the city and the heavy road.</p> <a class="btn btn-primary" href="#">Shop Now</a>
+                    </div>
+                </div>
+                <div class="cta-info-right">
+                    <div class="cta-iamage text-center"> <img src="~/images/others/cta-img.jpg" alt="Image" class="img-fluid"> </div>
+                </div>
+            </div>
+            <div class="cta-slider-item">
+                <div class="cta-info-left">
+                    <div class="cta-info">
+                        <h1>New Modern Series</h1>
+                        <p>Comfortable, lightweight, made of composite aluminum. Perfect for both the city and the heavy road.</p> <a class="btn btn-primary" href="#">Shop Now</a>
+                    </div>
+                </div>
+                <div class="cta-info-right">
+                    <div class="cta-iamage text-center"> <img src="~/images/others/cta-img.jpg" alt="Image" class="img-fluid"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+        <!--
+    <div class="daily-needs">
+        <div class="section-title text-center">
+            <h1><span>Daily Needs Week</span></h1>
+        </div>
+        <div class="random-product">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="tr-products">
+                        <div class="tr-product">
+                            <div class="image-slider">
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product1.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product2.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product3.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <a href="details.html"> <span class="product-title">Apple Iphone 7</span> <span class="color">Dark Metal</span> <span class="price">$149</span> </a>
+                            <div class="product-icon"> <a href="#"><span class="icon icon-basket"></span></a> <a href="#"><span class="icon icon-pulse"></span></a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="tr-products">
+                        <div class="tr-product">
+                            <div class="image-slider">
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product2.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product4.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <a href="details.html"> <span class="product-title">Charging Stroller</span> <span class="color">Dark Metal</span> <span class="price">$149</span> </a>
+                            <div class="product-icon"> <a href="#"><span class="icon icon-basket"></span></a> <a href="#"><span class="icon icon-pulse"></span></a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="tr-products">
+                        <div class="tr-product">
+                            <div class="image-slider">
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product3.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product1.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product3.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <a href="details.html"> <span class="product-title">Zigzag Watch</span> <span class="color">Dark Metal</span> <span class="price">$149</span> </a>
+                            <div class="product-icon"> <a href="#"><span class="icon icon-basket"></span></a> <a href="#"><span class="icon icon-pulse"></span></a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-6 col-lg-3">
+                    <div class="tr-products">
+                        <div class="tr-product">
+                            <div class="image-slider">
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product4.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product2.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                                <div class="product-image">
+                                    <a href="details.html"><img src="~/images/product/product3.png" alt="Image" class="img-fluid"></a>
+                                </div>
+                            </div>
+                            <a href="details.html"> <span class="product-title">T- Shirts</span> <span class="color">Dark Metal</span> <span class="price">$149</span> </a>
+                            <div class="product-icon"> <a href="#"><span class="icon icon-basket"></span></a> <a href="#"><span class="icon icon-pulse"></span></a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+    </div>
+</div>
+
+<!--
+<div class="card-deck">
+    // foreach (var item in Model)
+    {
+
+
+        <div class="card col-4 pl-0 pr-0">
+            <img src="//bc.GetImage(item.StallImage)" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">//item.StallName</h5>
+                <p class="card-text">//item.Description</p>
+                <a class="stretched-link" asp-action="BrowseProducts" asp-route-id="//item.StallID"></a>
+            </div>
+        </div>
+
+
+    }
+</div>
+ -->
+
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductUnit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stock)
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayNameFor(model => model.ProductImage)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="center-td">
+                        @Html.DisplayFor(modelItem => item.ProductID)
+                    </td>
+                    <td class="center-td" style="max-width:75px">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td class="center-td">
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td class="center-td">
+                        @Html.DisplayFor(modelItem => item.ProductUnit)
+                    </td>
+                    <td class="center-td">
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td style="text-align:center" class="description-td">
+                        <img src="@bc.GetImage(item.ProductImage)" style="max-height:75px;max-width:100px" />
+                    </td>
+                    <td class="center-td">
+                        <a asp-action="AddToCartPage" asp-route-id="@item.ProductID">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+

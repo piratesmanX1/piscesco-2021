@@ -1,0 +1,13 @@
+HTTrack3.49-2+htsswf+htsjava launched on Sun, 01 Aug 2021 08:07:32 at https://demo.themeregion.com/carrito/index.html +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://demo.themeregion.com/carrito/index.html -O1 "C:\My Web Sites\carrito" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+08:08:27	Error: 	"Not Found" (404) at link https://demo.themeregion.com/carrito/images/ico/apple-touch-icon-72-precomposed.png (from https://demo.themeregion.com/carrito/index.html)
+08:08:50	Error: 	"Not Found" (404) at link https://demo.themeregion.com/carrito/popper.js (from https://demo.themeregion.com/carrito/js/bootstrap.min.js)
+
+HTTrack Website Copier/3.49-2 mirror complete in 1 minutes 18 seconds : 125 links scanned, 122 files written (4400580 bytes overall) [3281307 bytes received at 42068 bytes/sec], 1974651 bytes transferred using HTTP compression in 40 files, ratio 36%, 31.2 requests per connection
+(2 errors, 0 warnings, 0 messages)

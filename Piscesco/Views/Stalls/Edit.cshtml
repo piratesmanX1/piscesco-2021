@@ -1,0 +1,63 @@
+﻿@model Piscesco.Models.Stall
+@using Piscesco.Controllers
+
+@{
+    ViewData["Title"] = "Edit Stall";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BlobsController bc = new BlobsController();
+}
+
+<div class="main-wrapper">
+    <div class="container" style=" border: 2px solid #dee2e6; border-radius: 5px; padding: 32px;">
+        <h1>Edit</h1>
+
+        <h4>Stall</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="StallID" />
+                    <div class="form-group" style="display:none">
+                        <label asp-for="StallImage" class="control-label"></label>
+                        <input asp-for="StallImage" class="form-control" readonly />
+                        <span asp-validation-for="StallImage" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StallImage" class="control-label"></label>
+                        <img src="@bc.GetImage(Model.StallImage)" style="max-height:300px;max-width:300px" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="file" name="files" accept="image/jpeg,image/png" style="border:none;padding-left:0" />
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label asp-for="OwnerID" class="control-label"></label>
+                        <input asp-for="OwnerID" class="form-control" readonly />
+                        <span asp-validation-for="OwnerID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StallName" class="control-label"></label>
+                        <input asp-for="StallName" class="form-control" />
+                        <span asp-validation-for="StallName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

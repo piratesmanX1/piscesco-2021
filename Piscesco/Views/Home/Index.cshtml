@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="tr-banner">
+    <div id="home-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item item active">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="banner-info">
+                                <div class="info-middle">
+                                    <span class="click-cart" data-animation="animated fadeInDown">Explore</span>
+                                    <h1 data-animation="animated fadeInDown"><span>Fishes</span> and Goods</h1>
+                                    <div class="paragraphs" data-animation="animated fadeInDown">
+                                        <p>Get your fish meat in the most convenient way</p>
+                                    </div>
+                                    <div data-animation="animated fadeInUp" class="buy-now"><a class="btn btn-primary" asp-controller="Products" asp-action="BrowseStalls">Browse Now</a> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="banner-image" data-animation="animated fadeInUp">
+                                <div class="info-middle"> <img src="images/others/banner-img.png" alt="Image" class="img-fluid"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="banner-info">
+                                <div class="info-middle">
+                                    <span class="click-cart" data-animation="animated fadeInDown">Dive</span>
+                                    <h1 data-animation="animated fadeInDown"><span>Within</span> the market</h1>
+                                    <div class="paragraphs" data-animation="animated fadeInDown">
+                                        <p>Find any goods within your hands with ease</p>
+                                    </div>
+                                    <div data-animation="animated fadeInUp" class="buy-now"><a class="btn btn-primary" asp-controller="Products" asp-action="BrowseStalls">Browse Now</a> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div data-animation="animated fadeInDown" class="banner-image">
+                                <div class="info-middle"> <img src="images/others/banner-img-1.png" alt="Image" class="img-fluid"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="banner-info">
+                                <div class="info-middle">
+                                    <span class="click-cart" data-animation="animated fadeInDown">Experience</span>
+                                    <h1 data-animation="animated fadeInDown"><span>Conveniences</span> and Ease</h1>
+                                    <div class="paragraphs" data-animation="animated fadeInDown">
+                                        <p>By using the Piscesco platform</p>
+                                    </div>
+                                    <div data-animation="animated fadeInUp" class="buy-now"><a class="btn btn-primary" asp-controller="Products" asp-action="BrowseStalls">Browse Now</a> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div data-animation="animated fadeInUp" class="banner-image">
+                                <div class="info-middle"> <img src="images/others/banner-img-2.png" alt="Image" class="img-fluid"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container indicators-content">
+            <ol class="carousel-indicators">
+                <li data-target="#home-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#home-carousel" data-slide-to="1"></li>
+                <li data-target="#home-carousel" data-slide-to="2"></li>
+            </ol>
+        </div>
+    </div>
+</div>

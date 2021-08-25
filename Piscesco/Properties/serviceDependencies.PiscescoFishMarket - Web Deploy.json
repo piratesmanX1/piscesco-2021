@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "appInsights1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/Piscesco",
+      "type": "appInsights.azure",
+      "connectionId": "APPINSIGHTS_CONNECTIONSTRING",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/piscescodb/databases/Piscesco_db",
+      "type": "mssql.azure",
+      "connectionId": "PiscescoModelContext",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/piscescodb/databases/Piscesco_db",
+      "type": "mssql.azure",
+      "connectionId": "PiscescoContextConnection",
+      "secretStore": "AzureAppSettings"
+    },
+    "storage2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/piscescostorage",
+      "type": "storage.azure",
+      "connectionId": "BlobStorageConnection",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

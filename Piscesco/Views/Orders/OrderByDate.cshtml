@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Piscesco.Models.Order>
+
+@using Microsoft.AspNetCore.Identity
+@using Piscesco.Areas.Identity.Data
+
+@inject UserManager<PiscescoUser> UserManager
+
+
+@{
+    ViewData["Title"] = "Stall Orders (Date Filter)";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string startDate = ViewData["StartDate"] as string;
+    string endDate = ViewData["EndDate"] as string;
+}
+
+
+<div class="main-wrapper">
+    <div class="container" style="border-radius: 5px; padding: 32px; padding-bottom:50px; box-shadow: 1px 1px 5px 0px rgb(0 0 0 / 75%);">
+        <h1>Orders by date</h1>
+
+        <div class="mb-4">
+            <h6>Start date:</h6>
+            <div class="col-6">
+                <input type="date" value="@startDate" class="form-control py-4 px-4" id="startDate" required />
+            </div>
+
+            <h6>End date:</h6>
+            <div class="col-6">
+                <input type="date" value="@endDate" class="form-control py-4 px-4" id="endDate" required />
+            </div>
+            <button class="btn btn-primary mt-3" id="btnSearch">Search</button>
+        </div>
+
+
+        <div id="grdOrders"></div>
+    </div>
+</div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <script>
+
+
+    $(() => {
+        
+        $('#btnSearch').on('click', () => {
+                    getOrdersByDate();
+        });
+    });
+
+    function getOrdersByDate() {
+        $.ajax({
+            url: '@Url.Action("SearchByDate","Orders")',
+            dataType: 'html',
+            method: 'GET',
+            data: { start: $('#startDate').val().toString(), end: $('#endDate').val().toString()},
+            success: function (res) {
+                $('#grdOrders').html('').html(res);
+                $.noConflict();
+                $('#orderTable').DataTable();
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+        </script>
+
+        <style>
+
+        </style>

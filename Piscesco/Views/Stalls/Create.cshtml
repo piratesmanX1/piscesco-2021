@@ -1,0 +1,59 @@
+﻿@model Piscesco.Models.Stall
+
+@using Microsoft.AspNetCore.Identity
+@using Piscesco.Areas.Identity.Data
+
+@inject UserManager<PiscescoUser> UserManager
+
+@{
+    ViewData["Title"] = "Create Stall";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrapper">
+    <div class="container" style=" border: 2px solid #dee2e6; border-radius: 5px; padding: 32px;">
+        <h1>Create</h1>
+
+        <h4>Stall</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group" style="display:none">
+                        <label asp-for="OwnerID" class="control-label"></label>
+                        <input asp-for="OwnerID" class="form-control" value="@UserManager.GetUserId(User)" readonly />
+                        <span asp-validation-for="OwnerID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StallName" class="control-label">Stall Name</label>
+                        <input asp-for="StallName" class="form-control" required />
+                        <span asp-validation-for="StallName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" required />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Stall Image</label>
+                        <input class="form-control" type="file" name="files" accept="image/jpeg,image/png" style="border:none;padding-left:0" required />
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

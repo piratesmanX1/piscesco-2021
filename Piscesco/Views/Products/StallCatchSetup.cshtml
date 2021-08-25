@@ -1,0 +1,151 @@
+﻿@*@model IEnumerable<Piscesco.Models.Product>*@
+@using Piscesco.Controllers
+
+@{
+    ViewData["Title"] = "Stall Featured Setup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BlobsController bc = new BlobsController();
+    IEnumerable<Product> product = ViewData["Products"] as IEnumerable<Product>;
+    IEnumerable<Product> featuredProduct = ViewData["FeaturedProducts"] as IEnumerable<Product>;
+}
+
+<div class="main-wrapper">
+    <div class="container">
+
+
+        <h1>Set today's catch</h1>
+        <p>
+            <a asp-action="Index">Back to List</a>
+        </p>
+        <br />
+        <br />
+        @if (featuredProduct.FirstOrDefault() != null)
+        {
+            <h2>Added list</h2>
+            <table class="table" style=" border: 2px solid #dee2e6; border-radius: 5px;">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => new Product().ProductID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => new Product().ProductName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => new Product().Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => new Product().ProductUnit)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => new Product().Stock)
+                        </th>
+                        <th style="text-align:center">
+                            @Html.DisplayNameFor(model => new Product().ProductImage)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in featuredProduct)
+                    {
+                        <tr>
+                            <td class="center-td">
+                                @Html.DisplayFor(modelItem => item.ProductID)
+                            </td>
+                            <td class="center-td" style="max-width:75px">
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td class="center-td">
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td class="center-td">
+                                @Html.DisplayFor(modelItem => item.ProductUnit)
+                            </td>
+                            <td class="center-td">
+                                @Html.DisplayFor(modelItem => item.Stock)
+                            </td>
+                            <td style="text-align:center" class="description-td">
+                                <img src="@bc.GetImage(item.ProductImage)" style="max-height:75px;max-width:100px" />
+                            </td>
+                            <td class="center-td">
+                                <form asp-action="RemoveFeatured" asp-route-id="@item.ProductID">
+                                    <input type="hidden" asp-for="@item.ProductID" />
+                                    <input type="submit" value="Remove" class="btn btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <hr class="my-12" style="padding-bottom:2em" />
+
+        }
+
+
+
+
+
+
+
+        <table class="table" style=" border: 2px solid #dee2e6; border-radius: 5px;">
+
+            <h2>Product list</h2>
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => new Product().ProductID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => new Product().ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => new Product().Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => new Product().ProductUnit)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => new Product().Stock)
+                    </th>
+                    <th style="text-align:center">
+                        @Html.DisplayNameFor(model => new Product().ProductImage)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in product)
+                {
+                    <tr>
+                        <td class="center-td">
+                            @Html.DisplayFor(modelItem => item.ProductID)
+                        </td>
+                        <td class="center-td" style="max-width:75px">
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        <td class="center-td">
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td class="center-td">
+                            @Html.DisplayFor(modelItem => item.ProductUnit)
+                        </td>
+                        <td class="center-td">
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td style="text-align:center" class="description-td">
+                            <img src="@bc.GetImage(item.ProductImage)" style="max-height:75px;max-width:100px" />
+                        </td>
+                        <td class="center-td">
+                            <form asp-action="AddFeatured" asp-route-id="@item.ProductID">
+                                <input type="hidden" asp-for="@item.ProductID" />
+                                <input type="submit" value="Add" class="btn btn-success" />
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

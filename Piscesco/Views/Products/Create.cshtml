@@ -1,0 +1,67 @@
+﻿@model Piscesco.Models.Product
+
+@{
+    ViewData["Title"] = "Create Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrapper">
+    <div class="container" style=" border: 2px solid #dee2e6; border-radius: 5px; padding: 32px;">
+        <h1>Create</h1>
+
+        <h4>Product</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group" style="display:none">
+                        <label asp-for="StallID" class="control-label"></label>
+                        <input asp-for="StallID" class="form-control" />
+                        <span asp-validation-for="StallID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductName" class="control-label"></label>
+                        <input asp-for="ProductName" class="form-control" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductDescription" class="control-label"></label>
+                        <input asp-for="ProductDescription" class="form-control" />
+                        <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label">Price per unit</label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductUnit" class="control-label"></label>
+                        <input asp-for="ProductUnit" class="form-control" placeholder="Kg, gram, can, bottle, etc." />
+                        <span asp-validation-for="ProductUnit" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Stock" class="control-label"></label>
+                        <input asp-for="Stock" class="form-control" />
+                        <span asp-validation-for="Stock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Product Image</label>
+                        <input class="form-control" type="file" name="files" accept="image/*" style="border:none;padding-left:0" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+    </div>
+</div>

@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Piscesco.Models.Order>
+@using Piscesco.Controllers
+@using Microsoft.AspNetCore.Identity
+@using Piscesco.Areas.Identity.Data
+
+@inject UserManager<PiscescoUser> UserManager
+
+
+@{
+    ViewData["Title"] = "Stall Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<Product> product = ViewData["Products"] as IEnumerable<Product>;
+    BlobsController bc = new BlobsController();
+    decimal totalSales = 0;
+}
+
+<div class="main-wrapper">
+    <div class="container">
+
+        <h1>All Orders</h1>
+
+        <a asp-action="OrderByDate" asp-route-start="@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")" asp-route-end="@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")">Filter orders by date</a>
+
+
+        <div class="tableWrapper">
+            <table class="table" id="orderTable" style=" border: 2px solid #dee2e6; border-radius: 5px;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderID)
+                        </th>
+                        <th>
+                            Placed By
+                        </th>
+                        <th>
+                            Date Placed
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProductName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProductQuantity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TotalPrice)
+                        </th>
+                        <th>
+                            Product Image
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var user = await UserManager.FindByIdAsync(item.OwnerID);
+                        Product orderProduct = new Product();
+                        if (product.Count() > 0)
+                        {
+                            orderProduct = product.Where(obj => obj.ProductID == item.ProductID).First();
+                        }
+                        totalSales += item.TotalPrice;
+                        <tr>
+                            <td class="center-td">
+                                @Html.DisplayFor(modelItem => item.OrderID)
+                            </td>
+                            <td class="center-td">
+                                @user.Name
+                            </td>
+                            <td class="center-td" style="max-width:75px">
+                                @item.TransactionDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td class="center-td" style="max-width:75px">
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td class="center-td">
+                                @Html.DisplayFor(modelItem => item.ProductQuantity)
+                            </td>
+                            <td class="center-td">
+                                @Html.DisplayFor(modelItem => item.TotalPrice)
+                            </td>
+                            <td style="text-align:center" class="description-td">
+                                <img src="@bc.GetImage(orderProduct.ProductImage)" style="max-height:75px;max-width:100px" />
+                            </td>
+                            <td class="center-td">
+                                <a asp-action="Details" asp-route-id="@item.OrderID" asp-route-pid="@orderProduct.ProductID">Details</a>
+                            </td>
+
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            @if (totalSales == 0)
+            {
+
+            }
+            else
+            {
+                <div class="float-right mt-2">
+                    <h5>Total sales: @totalSales</h5>
+                </div>
+
+            }
+        </div>
+
+
+        <!--
+        <div class="float-right mt-4 mb-4" style="height:100px">
+            <h5>Total sales: @totalSales</h5>
+        </div>
+        -->
+    </div>
+</div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#orderTable').DataTable();
+            });
+
+
+        </script>

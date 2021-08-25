@@ -1,0 +1,67 @@
+﻿@model Piscesco.Models.Product
+@using Piscesco.Controllers
+
+@{
+    ViewData["Title"] = "Stall Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BlobsController bc = new BlobsController();
+    Uri imageUri = bc.GetImage(Model.ProductImage);
+}
+<div class="main-wrapper">
+    <div class="container" style=" border: 2px solid #dee2e6; border-radius: 5px; padding: 32px;">
+        <h1>Details</h1>
+
+        <div>
+            <h4>Product</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ProductID)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ProductID)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ProductName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ProductDescription)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ProductDescription)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ProductUnit)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ProductUnit)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Stock)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Stock)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ProductImage)
+                </dt>
+                <dd class="col-sm-10">
+                    <img src="@imageUri" style="max-height:300px;max-width:300px" />
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.ProductID">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>

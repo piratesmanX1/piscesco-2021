@@ -1,0 +1,243 @@
+﻿@model IEnumerable<Piscesco.Models.Order>
+@using Piscesco.Controllers
+@using Microsoft.AspNetCore.Identity
+@using Piscesco.Areas.Identity.Data
+
+@inject SignInManager<PiscescoUser> SignInManager
+@inject UserManager<PiscescoUser> UserManager
+
+@{
+    ViewData["Title"] = "Cart List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<Product> product = ViewData["Products"] as IEnumerable<Product>;
+    IEnumerable<Stall> stall = ViewData["Stalls"] as IEnumerable<Stall>;
+    BlobsController bc = new BlobsController();
+    decimal totalSales = 0;
+}
+
+@if (TempData["Message"] != null)
+{
+    <script>alert("@TempData["Message"]");</script>
+}
+
+<div class="tr-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-info">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Products" asp-action="BrowseStalls">Browse Stall</a></li>
+                <li class="breadcrumb-item active">Shopping Cart</li>
+            </ol>
+            <div class="page-title">
+                <h1>Shopping Cart</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-wrapper">
+    <div class="container">
+        <div class="tr-section products-description">
+            <div class="cart-title"> <span>Cart</span> </div>
+            <div class="woocommerce-cart-form" action="#">
+                <div class="item-info-menu">
+                    <div class="row">
+                        <div class="col-md-5"> <span>Item</span> </div>
+                        <div class="col-lg-4 col-md-3"> <span>Order ID</span> </div>
+                        <div class="col-md-2"> <span>QTY</span> </div>
+                        <div class="col-lg-1 col-md-2"> <span class="price">Price (RM)</span> </div>
+                    </div>
+                </div>
+                <ul class="tr-list cart-list">
+                    @foreach (var item in Model)
+                    {
+                        Product orderProduct = new Product();
+                        if (product.Count() > 0)
+                        {
+                            orderProduct = product.Where(obj => obj.ProductID == item.ProductID).First();
+                        }
+                        Stall orderStall = new Stall();
+                        if(stall.Count() > 0)
+                        {
+                            orderStall = stall.Where(obj => obj.StallID == item.StallID).First();
+                        }
+                        totalSales += item.TotalPrice;
+
+                        <li class="cart-item remove-item">
+                            <span class="remove-icon">
+                                <form asp-controller="Products" asp-action="RemoveFromCart" asp-route-id="@item.OrderID">
+                                    <button type="submit" style="border: unset; background: transparent; color: #BBC0D4;"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                </form>
+                            </span>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="product">
+                                        <a asp-controller="Products" asp-action="AddToCartPage" asp-route-id="@item.ProductID">
+                                            <span class="product-image">
+                                                <img src="@bc.GetImage(orderProduct.ProductImage)" alt="Image" class="img-fluid">
+                                            </span> <span class="product-title">@Html.DisplayFor(modelItem => item.ProductName)</span> <span class="color">@orderStall.StallName</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-3">
+                                    <div class="tr-color">
+                                        @Html.DisplayFor(modelItem => item.OrderID)
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="product-quantity">
+                                        <div class="quantity" data-trigger="spinner">
+                                            <a class="btn pull-left" asp-controller="Products" asp-action="AddToCartPage" asp-route-id="@item.ProductID"><i class="fa fa-minus"></i></a>
+                                            <input type="text" disabled name="quantity" value="@item.ProductQuantity" title="quantity" class="input-text"> <a class="btn pull-right" asp-controller="Products" asp-action="AddToCartPage" asp-route-id="@item.ProductID"><i class="fa fa-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-md-2"> <span class="price">@Html.DisplayFor(modelItem => item.TotalPrice)</span> </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <ul class="tr-list cart-totals">
+                <li>
+                    <div class="row">
+                        <div class="col-4 col-lg-9 col-md-8"> <span>Subtotal</span> </div>
+                        <div class="col-4 col-md-2"> <span></span> </div>
+                        <div class="col-4 col-lg-1 col-md-2"> <span class="price">@totalSales</span> </div>
+                    </div>
+                </li>
+                <li class="Promo-code">
+                    <div class="row">
+                        <div class="col-4 col-lg-9 col-md-8"></div>
+                        <div class="col-4 col-md-2"> <span></span> </div>
+                        <div class="col-4 col-lg-1 col-md-2"> <span class="price"></span></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-8 col-lg-11 col-md-10"> <span>Total</span> </div>
+                        <div class="col-4 col-lg-1 col-md-2"> <span class="price">@totalSales</span> </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="buttons">
+                <a asp-controller="Products" asp-action="BrowseStalls" asp-route-stallID="" class="btn btn-primary button-back pull-left">Back</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var loginSession = await UserManager.FindByIdAsync(UserManager.GetUserId(User));
+
+                    if (loginSession.Role == "Customer")
+                    {
+                        <form asp-controller="Products" asp-action="CheckoutCart">
+                            <input type="submit" class="btn btn-primary pull-right" @(Model != null ? "" : "disabled") value="Checkout" />
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="tableWrapper">
+    <table class="table table-striped table-bordered" id="orderTable">
+        <thead>
+            <tr>
+                <th>
+                    // Html.DisplayNameFor(model => model.OrderID)
+                </th>
+                <th>
+                    // Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    // Html.DisplayNameFor(model => model.ProductQuantity)
+                </th>
+                <th>
+                    // Html.DisplayNameFor(model => model.TotalPrice)
+                </th>
+                <th>
+                    Product Image
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            // foreach (var item in Model)
+            {
+                Product orderProduct = new Product();
+                if (product.Count() > 0)
+                {
+                    orderProduct = product.Where(obj => obj.ProductID == item.ProductID).First();
+                }
+                totalSales += item.TotalPrice;
+                <tr>
+                    <td class="center-td">
+                        // Html.DisplayFor(modelItem => item.OrderID)
+                    </td>
+                    <td class="center-td" style="max-width:75px">
+                        // Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td class="center-td">
+                        // Html.DisplayFor(modelItem => item.ProductQuantity)
+                    </td>
+                    <td class="center-td">
+                        // Html.DisplayFor(modelItem => item.TotalPrice)
+                    </td>
+                    <td style="text-align:center" class="description-td">
+                        <img src="// bc.GetImage(orderProduct.ProductImage)" style="max-height:75px;max-width:100px" />
+                    </td>
+                    <td class="center-td">
+                        <a asp-controller="Products" asp-action="AddToCartPage" asp-route-id="// item.ProductID">Edit</a> |
+                        <form asp-controller="Products" asp-action="RemoveFromCart" asp-route-id="// item.OrderID">
+                            <input type="submit" value="Remove" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="float-right mt-4 mb-4" style="height:100px">
+    <h5>Total Price: RM //totalSales</h5>
+</div>
+-->
+
+<div class="tr-convenience">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="convenience">
+                    <div class="icon"> <img src="~/images/others/icon1.png" alt="Image" class="img-fluid"> </div> <span>Free Delivery</span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="convenience">
+                    <div class="icon"> <img src="~/images/others/icon2.png" alt="Image" class="img-fluid"> </div> <span>Clients Discounts</span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="convenience">
+                    <div class="icon"> <img src="~/images/others/icon3.png" alt="Image" class="img-fluid"> </div> <span>Return Of Goods</span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="convenience">
+                    <div class="icon"> <img src="~/images/others/icon4.png" alt="Image" class="img-fluid"> </div> <span>Many Brands</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#orderTable').DataTable();
+    });
+
+
+</script>

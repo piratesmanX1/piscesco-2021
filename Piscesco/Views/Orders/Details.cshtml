@@ -1,0 +1,87 @@
+﻿@model Piscesco.Models.Order
+@using Piscesco.Controllers
+@using Microsoft.AspNetCore.Identity
+@using Piscesco.Areas.Identity.Data
+
+@inject UserManager<PiscescoUser> UserManager
+
+@{
+    ViewData["Title"] = "Stall Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    BlobsController bc = new BlobsController();
+    Product product = ViewData["Product"] as Product;
+    FeedbackEntity feedback = ViewData["Feedback"] as FeedbackEntity;
+    Uri imageUri = bc.GetImage(product.ProductImage);
+    var user = await UserManager.FindByIdAsync(Model.OwnerID);
+}
+
+<div class="main-wrapper">
+    <div class="container" style="border-radius: 5px; padding: 32px; border: 2px solid #dee2e6;">
+        <h1>Details</h1>
+
+        <div>
+            <h4>Product</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Ordered by
+                </dt>
+                <dd class="col-sm-10">
+                    @user.Name
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.OrderID)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.OrderID)
+                </dd>
+                <dt class="col-sm-2">
+                    Billing address
+                </dt>
+                <dd class="col-sm-10">
+                    @user.UserAddress
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ProductID)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ProductID)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ProductName)
+                </dd>
+                <dt class="col-sm-2">
+                    Product Image
+                </dt>
+                <dd class="col-sm-10">
+                    <img src="@imageUri" style="max-height:300px;max-width:300px" />
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ProductQuantity)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ProductQuantity)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.TotalPrice)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.TotalPrice)
+                </dd>
+                <dt class="col-sm-2">
+                    Customer Feedback
+                </dt>
+                <dd class="col-sm-10">
+                    @(feedback != null ? feedback.FeedbackDescription : "-")
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a href="javascript: history.go(-1)">Go Back</a>
+        </div>
+    </div>
+</div>

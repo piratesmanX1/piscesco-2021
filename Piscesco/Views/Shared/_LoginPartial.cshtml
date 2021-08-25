@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Piscesco.Areas.Identity.Data
+@using Piscesco.Controllers
+
+@inject SignInManager<PiscescoUser> SignInManager
+@inject UserManager<PiscescoUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var loginSession = await UserManager.FindByIdAsync(UserManager.GetUserId(User));
+
+        <!--
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello // UserManager.GetUserName(User)!</a>
+        </li>
+        -->
+        <div class="tr-user">
+            <div class="user-image"> <img src="images/others/user.png" alt="Image" class="img-fluid"> </div>
+            <div class="user-option">
+                <div class="tr-dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        @loginSession.Name
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="tr-dropdown-menu">
+                        <li><a asp-area="Identity" asp-page="/Account/Manage/Index">View Profile</a></li>
+                        <li>
+                            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Log Out</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        @if (loginSession.Role.Equals("Seller"))
+        {
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-dark" asp-area="" asp-controller="Stalls" asp-action="Index">Manage Stalls</a>
+            </li>
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="StallList">Manage Orders</a>
+            </li>
+        }
+        else if (loginSession.Role.Equals("Customer"))
+        {
+            // TablesController table = new TablesController(UserManager, SignInManager);
+            // table.CreateFeedbackTable();
+
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="BrowseStalls">Browse Stalls</a>
+            </li>
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="CartList">Cart</a>
+            </li>
+        }
+
+        <!--
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+        -->
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>
