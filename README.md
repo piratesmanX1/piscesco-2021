@@ -3,7 +3,7 @@ A group assignment which being assigned at the last semester of Degree, which is
 
 **DISCLAIMER: The uploaded project file is only for references and comparison, the project file will not be used in any profit-oriented activities without my permission. The user that downloaded the said project will be responsible for any outcomes of their future implementation on the project, and I will not held any legal responsibilities upon your action. However, any users are welcomed to suggest any changes or improvements upon the project if they want to.**
 
-**P.S: The system might be no longer functional upon 2022 as the functionalities which rely on the SQL Table and Table Storage are depending on the Azure Cloud, and the cost billing by the time might be no longer sufficient to maintain the said services.**
+**P.S: The system might be no longer functional upon 2022 as the functionalities which rely on the SQL Table and Table Storage are depending on the Azure Cloud mainly due to the cost billing by the time might be no longer sufficient to maintain the said services.**
 
 **===================================INSTRUCTIONS===================================**
 1. Pull the files, and open via Visual Studio.
